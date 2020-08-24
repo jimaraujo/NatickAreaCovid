@@ -5,4 +5,4 @@ This repository will be used to hold Covid data for the Natick area.
 Plots will be updated as data becomes available.
 
 Current plot:
-![most recent plot of cases per 100k](plots/NatickAreaCovidRates082020.png)
+![most recent plot of cases per 100k](Plots/NatickAreaCovidRates082020.png)
