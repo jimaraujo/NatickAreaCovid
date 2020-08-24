@@ -7,7 +7,6 @@ library(ggplot2)
 #use the following lines of code to add Natick's twice-weekly data
 newData <- data.frame(Town = "Natick", 
                       Date = as.Date("08/24/2020", "%m/%d/%Y"), 
-#                     Date = "2020-08-24", 
                       Day_Difference = as.integer(4), 
                       Current = as.integer(7), 
                       Total_Confirmed = as.integer(450), 
@@ -19,7 +18,6 @@ newData <- data.frame(Town = "Natick",
                       New_Prob_Conf_per_day_per_100k = NA, 
                       New_Conf_per_day_per_100k = NA, 
                       Current_per_100k = NA )
-#newData$Date <- as.Date(newData$Date)
 dat <- rbind(newData, dat)  #add new Natick data to beginning of full data set
 
 NatickPopulation <- 36050  #estimate of Natick's population as of 8/1/20
@@ -64,15 +62,3 @@ dat %>% ggplot(aes(x=Date, color=Town)) +
 
 write.csv(dat,"NatickTwiceWeeklyData.csv")  #export Natick data as csv file
 write.csv(otherTownDat,"NatickArea14dayData.csv")  #export area data as csv file
-
-
-names(newData)[names(newData)=="New_Probable_Confirmed"] <- "New Probable/Confirmed"
-names(newData)[names(newData)=="Removed_Probable_Confirmed"] <- "Removed Probable/Confirmed"
-names(newData)[names(newData)=="Total_Probable_Confirmed"] <- "Total Probable/Confirmed"
-names(newData)[names(newData)=="Total_Confirmed"] <- "Total Confirmed"
-names(newData)[names(newData)=="Total_Probable"] <- "Total Probable"
-names(newData)[names(newData)=="Day_Difference"] <- "Day Difference"
-names(newData)[names(newData)=="Confirmed_Difference"] <- "Confirmed Difference"
-names(newData)[names(newData)=="New_Prob_Conf_per_day_per_100k"] <- "New Prob/Conf per day per 100k"
-names(newData)[names(newData)=="New_Conf_per_day_per_100k"] <- "New Conf per day per 100k"
-names(newData)[names(newData)=="Current_per_100k"] <- "Current per 100k"
