@@ -8,12 +8,12 @@ library(ggplot2)
 newData <- data.frame(Town = "Natick", 
                       Date = as.Date("08/24/2020", "%m/%d/%Y"), 
                       Day_Difference = as.integer(4), 
-                      Current = as.integer(7), 
-                      Total_Confirmed = as.integer(450), 
-                      Total_Probable = as.integer(226), 
-                      Total_Probable_Confirmed = as.integer(676), 
-                      Confirmed_Difference = as.integer(0), 
-                      New_Probable_Confirmed = as.integer(10), 
+                      Current = as.integer(3), 
+                      Total_Confirmed = as.integer(453), 
+                      Total_Probable = as.integer(237), 
+                      Total_Probable_Confirmed = as.integer(690), 
+                      Confirmed_Difference = as.integer(3), 
+                      New_Probable_Confirmed = as.integer(11), 
                       Removed_Probable_Confirmed = NA,
                       New_Prob_Conf_per_day_per_100k = NA, 
                       New_Conf_per_day_per_100k = NA, 
@@ -24,9 +24,9 @@ NatickPopulation <- 36050  #estimate of Natick's population as of 8/1/20
 perFactor <- 100000  #most COVID data reported per 100k people
 
 #calculate new rates per 100k based on newly-added data
-dat <- dat %>% mutate('New Prob/Conf per day per 100k' = `New Probable/Confirmed`/`Day Difference`/NatickPopulation*perFactor,
-                      'New Conf per day per 100k' = `Confirmed Difference`/`Day Difference`/NatickPopulation*perFactor,
-                      'Current per 100k' = Current/NatickPopulation*perFactor)
+dat <- dat %>% mutate('New_Prob_Conf_per_day_per_100k' = New_Probable_Confirmed/Day_Difference/NatickPopulation*perFactor,
+                      'New_Conf_per_day_per_100k' = Confirmed_Difference/Day_Difference/NatickPopulation*perFactor,
+                      'Current_per_100k' = Current/NatickPopulation*perFactor)
 
 
 #use following lines of code after importing csv of other town data - file should be named "NewTownData"
