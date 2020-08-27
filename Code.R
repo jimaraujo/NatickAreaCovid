@@ -30,7 +30,7 @@ dat <- dat %>% mutate('New_Prob_Conf_per_day_per_100k' = New_Probable_Confirmed/
 
 
 #use following lines of code after importing csv of other town data - file should be named "NewTownData"
-NewTownData$Date <- as.Date(NewTownData$Date, "%y-%m-%d")
+#NewTownData$Date <- as.Date(NewTownData$Date, "%y-%m-%d")
 NewTownData <- NewTownData %>%   #calculate new confirmed case rate per 100k people
   mutate('New Conf per day per 100k' = `Total positive tests last 14 days`/14/Population*perFactor)
 otherTownDat <- rbind(NewTownData, otherTownDat)  #add new area data to beginning of otherTownData date set
@@ -39,6 +39,9 @@ otherTownDat <- rbind(NewTownData, otherTownDat)  #add new area data to beginnin
 previousDays2Plot <- 45  #plot data of last 45 calendar days
 thresholds <- rbind( c("green",1), c("yellow",4), c("red",8) )  #these thresholds were set in August by the Commonwealth of MA; they may not correlate to closing of schools
 cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")  #color palette for plotting
+
+label1 = subset(otherTownDat, Town=="Natick" & Date==max(otherTownDat$Date))  #label for 14-day Natick data
+label2 = subset(dat, Date==max(dat$Date))  #label for 3/4-day Natick data
 
 #create new plot with updated data
 dat %>% ggplot(aes(x=Date, color=Town)) +
@@ -57,7 +60,9 @@ dat %>% ggplot(aes(x=Date, color=Town)) +
   geom_line(data = otherTownDat, aes(y=`New Conf per day per 100k`)) +
   geom_point(data = otherTownDat, aes(y=`New Conf per day per 100k`)) +
   scale_colour_manual(values=cbPalette) +
-  theme(plot.title = element_text(hjust = 0.5),plot.subtitle = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5),plot.subtitle = element_text(hjust = 0.5)) +
+  geom_text(data=label2,aes(Date,New_Conf_per_day_per_100k,label=round(New_Conf_per_day_per_100k, digits=1)),nudge_y = 0.2) +
+  geom_text(data=label1,aes(x=Date,y=`New Conf per day per 100k`,label=round(`New Conf per day per 100k`, digits=1)),nudge_y = -0.2)
 
 
 write.csv(dat,"NatickTwiceWeeklyData.csv")  #export Natick data as csv file
