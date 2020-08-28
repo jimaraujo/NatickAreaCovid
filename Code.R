@@ -6,14 +6,17 @@ library(ggplot2)
 
 #use the following lines of code to add Natick's twice-weekly data
 newData <- data.frame(Town = "Natick", 
-                      Date = as.Date("08/24/2020", "%m/%d/%Y"), 
-                      Day_Difference = as.integer(4), 
-                      Current = as.integer(3), 
-                      Total_Confirmed = as.integer(453), 
-                      Total_Probable = as.integer(237), 
-                      Total_Probable_Confirmed = as.integer(690), 
-                      Confirmed_Difference = as.integer(3), 
-                      New_Probable_Confirmed = as.integer(11), 
+                      Date = as.Date("08/27/2020", "%m/%d/%Y"), 
+                      Day_Difference = as.integer(3), 
+                      Current = as.integer(4), 
+                      Total_Confirmed = as.integer(454), 
+                      #Total_Probable = as.integer(237), 
+                      Total_Probable = NA, 
+                      #Total_Probable_Confirmed = as.integer(690), 
+                      Total_Probable_Confirmed = NA, 
+                      Confirmed_Difference = as.integer(1), 
+                      #New_Probable_Confirmed = as.integer(11), 
+                      New_Probable_Confirmed = NA, 
                       Removed_Probable_Confirmed = NA,
                       New_Prob_Conf_per_day_per_100k = NA, 
                       New_Conf_per_day_per_100k = NA, 
@@ -61,7 +64,7 @@ dat %>% ggplot(aes(x=Date, color=Town)) +
   geom_point(data = otherTownDat, aes(y=`New Conf per day per 100k`)) +
   scale_colour_manual(values=cbPalette) +
   theme(plot.title = element_text(hjust = 0.5),plot.subtitle = element_text(hjust = 0.5)) +
-  geom_text(data=label2,aes(Date,New_Conf_per_day_per_100k,label=round(New_Conf_per_day_per_100k, digits=1)),nudge_y = 0.2) +
+  geom_text(data=label2,aes(Date,New_Conf_per_day_per_100k,label=round(New_Conf_per_day_per_100k, digits=1)),nudge_y = -0.2) +
   geom_text(data=label1,aes(x=Date,y=`New Conf per day per 100k`,label=round(`New Conf per day per 100k`, digits=1)),nudge_y = -0.2)
 
 
