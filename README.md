@@ -5,6 +5,9 @@ This repository will be used to hold Covid data for the Natick area. Plots will 
 
 ![most recent plot of cases per 100k](Plots/NatickAreaCovidRates090320.png)
 
+Added the plot below tracking 7-day average of newly confirmed cases per 100k Natick population.
+![7-day average new cases per 100k](Plots/Natick7dayCovidRates090320.png)
+
 <br>
 Natick twice-weekly data downloaded from https://www.natickma.gov/1702/Coronavirus-Updates-Community-Informatio 
 <br><br>
