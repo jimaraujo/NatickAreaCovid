@@ -1,26 +1,29 @@
 install.packages("dplyr")
 install.packages("ggplot2")
+install.packages("zoo")
 
 library(dplyr)
 library(ggplot2)
+library(zoo)
 
 #use the following lines of code to add Natick's twice-weekly data
 newData <- data.frame(Town = "Natick", 
-                      Date = as.Date("08/27/2020", "%m/%d/%Y"), 
-                      Day_Difference = as.integer(3), 
-                      Current = as.integer(4), 
-                      Total_Confirmed = as.integer(454), 
+                      Date = as.Date("09/07/2020", "%m/%d/%Y"), 
+                      Day_Difference = as.integer(4), 
+                      Confirmed_Difference = as.integer(3), 
+                      Current = as.integer(1), 
+                      Total_Confirmed = as.integer(463), 
                       #Total_Probable = as.integer(237), 
                       Total_Probable = NA, 
                       #Total_Probable_Confirmed = as.integer(690), 
                       Total_Probable_Confirmed = NA, 
-                      Confirmed_Difference = as.integer(1), 
                       #New_Probable_Confirmed = as.integer(11), 
                       New_Probable_Confirmed = NA, 
                       Removed_Probable_Confirmed = NA,
                       New_Prob_Conf_per_day_per_100k = NA, 
                       New_Conf_per_day_per_100k = NA, 
-                      Current_per_100k = NA )
+                      Current_per_100k = NA,
+                      avg7dayPer100k = NA)
 dat <- rbind(newData, dat)  #add new Natick data to beginning of full data set
 
 NatickPopulation <- 36050  #estimate of Natick's population as of 8/1/20
@@ -51,7 +54,7 @@ dat %>% ggplot(aes(x=Date, color=Town)) +
   geom_line(aes(y=New_Conf_per_day_per_100k), size = 1.5) +
   geom_point(aes(y=New_Conf_per_day_per_100k), size = 3) +
   scale_x_date(date_labels = "%b %d", limit=c(as.Date(max(dat$Date,otherTownDat$Date)-previousDays2Plot),as.Date(max(dat$Date,otherTownDat$Date)))) +
-  coord_cartesian(ylim = c(0, 10)) +
+  coord_cartesian(ylim = c(0, 12)) +
   ylab("Cases per 100,000 residents") +
   xlab("Date") +
   ggtitle(label=paste("Cases per day per 100k residents 14-day average \nlast",previousDays2Plot,"days from",max(dat$Date,otherTownDat$Date)),
@@ -64,9 +67,30 @@ dat %>% ggplot(aes(x=Date, color=Town)) +
   geom_point(data = otherTownDat, aes(y=`New Conf per day per 100k`)) +
   scale_colour_manual(values=cbPalette) +
   theme(plot.title = element_text(hjust = 0.5),plot.subtitle = element_text(hjust = 0.5)) +
-  geom_text(data=label2,aes(Date,New_Conf_per_day_per_100k,label=round(New_Conf_per_day_per_100k, digits=1)),nudge_y = -0.2) +
-  geom_text(data=label1,aes(x=Date,y=`New Conf per day per 100k`,label=round(`New Conf per day per 100k`, digits=1)),nudge_y = -0.2)
+  geom_text(data=label2,aes(Date,New_Conf_per_day_per_100k,label=round(New_Conf_per_day_per_100k, digits=1)),nudge_y = +0.3) +
+  geom_text(data=label1,aes(x=Date,y=`New Conf per day per 100k`,label=round(`New Conf per day per 100k`, digits=1)),nudge_y = +0.4)
 
+
+#create 7-day daily average of newly confirmed cases, assuming "dat" data frame lists data in chronological order
+avg7dayPer100k <- rollapply(dat$Confirmed_Difference,2,sum)/7/NatickPopulation*perFactor
+avg7dayPer100k[length(avg7dayPer100k)+1]<-NA  ##rollapply function will create a vector of length one less than "dat" data frame
+dat$avg7dayPer100k <- avg7dayPer100k   ##rewrite 7-day average data in "dat" data frame
+
+dat %>% ggplot(aes(x=Date)) +
+  geom_line(aes(y=avg7dayPer100k), size = 1) +
+  geom_point(aes(y=avg7dayPer100k), size = 2) +
+  scale_x_date(date_labels = "%b %d", limit=c(as.Date(max(dat$Date)-previousDays2Plot),as.Date(max(dat$Date)))) +
+  coord_cartesian(ylim = c(0, 12)) +
+  ylab("Cases per 100,000 residents") +
+  xlab("Date") +
+  ggtitle(label=paste("Cases per day per 100k residents\n7-day average \nlast",previousDays2Plot,"days from",max(dat$Date,otherTownDat$Date))) +
+  geom_hline(yintercept=as.numeric(thresholds[3,2]), linetype="dashed", color = thresholds[3,1], size=1) +
+  geom_hline(yintercept=as.numeric(thresholds[2,2]), linetype="dashed", color = thresholds[2,1], size=1) +
+  geom_hline(yintercept=as.numeric(thresholds[1,2]), linetype="dashed", color = thresholds[1,1], size=1) +
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5),plot.subtitle = element_text(hjust = 0.5)) +
+  geom_text(aes(Date,avg7dayPer100k,label=round(avg7dayPer100k, digits=1)),nudge_y = +0.5) #+
+  #geom_smooth(aes(Date,avg7dayPer100k),se=FALSE)
 
 write.csv(dat,"NatickTwiceWeeklyData.csv")  #export Natick data as csv file
 write.csv(otherTownDat,"NatickArea14dayData.csv")  #export area data as csv file
