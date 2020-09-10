@@ -1,10 +1,12 @@
-install.packages("dplyr")
-install.packages("ggplot2")
-install.packages("zoo")
+#install.packages("dplyr")
+#install.packages("ggplot2")
+#install.packages("zoo")
+#install.packages("reshape2")
 
 library(dplyr)
 library(ggplot2)
 library(zoo)
+library(reshape2)
 
 #use the following lines of code to add Natick's twice-weekly data
 newData <- data.frame(Town = "Natick", 
@@ -76,6 +78,7 @@ avg7dayPer100k <- rollapply(dat$Confirmed_Difference,2,sum)/7/NatickPopulation*p
 avg7dayPer100k[length(avg7dayPer100k)+1]<-NA  ##rollapply function will create a vector of length one less than "dat" data frame
 dat$avg7dayPer100k <- avg7dayPer100k   ##rewrite 7-day average data in "dat" data frame
 
+#7-day Natick plot
 dat %>% ggplot(aes(x=Date)) +
   geom_line(aes(y=avg7dayPer100k), size = 1) +
   geom_point(aes(y=avg7dayPer100k), size = 2) +
@@ -91,6 +94,33 @@ dat %>% ggplot(aes(x=Date)) +
   theme(plot.title = element_text(hjust = 0.5),plot.subtitle = element_text(hjust = 0.5)) +
   geom_text(aes(Date,avg7dayPer100k,label=round(avg7dayPer100k, digits=1)),nudge_y = +0.5) #+
   #geom_smooth(aes(Date,avg7dayPer100k),se=FALSE)
+
+
+#weighted plots based on adjacent towns to Natick
+localTowns <- c("Natick","Framingham","Wayland","Wellesley","Dover","Sherborn")
+otherTownDat2 <- otherTownDat %>%
+  filter(Town %in% localTowns) %>%
+  group_by(Date) %>%
+  mutate(equal_wtd_rate = mean(`New Conf per day per 100k`), pop_wtd_rate = sum(`Total positive tests last 14 days`)/14/sum(Population)*perFactor) %>%
+  select(Date, equal_wtd_rate, pop_wtd_rate) %>%
+  unique()
+melt(otherTownDat2, id=1) %>%
+  ggplot(aes(x=Date,y=value,color=variable)) +
+  geom_line() +
+  geom_point() +
+  scale_x_date(date_labels = "%b %d", limit=c(as.Date(max(otherTownDat2$Date)-previousDays2Plot),as.Date(max(otherTownDat2$Date)))) +
+  coord_cartesian(ylim = c(0, 10)) +
+  ylab("Cases per 100,000 residents") +
+  xlab("Date") +
+  ggtitle(label=paste("Cases per day per 100k residents\n14-day average \nlast",previousDays2Plot,"days from",max(dat$Date,otherTownDat$Date))) +
+  geom_hline(yintercept=as.numeric(thresholds[3,2]), linetype="dashed", color = thresholds[3,1], size=1) +
+  geom_hline(yintercept=as.numeric(thresholds[2,2]), linetype="dashed", color = thresholds[2,1], size=1) +
+  geom_hline(yintercept=as.numeric(thresholds[1,2]), linetype="dashed", color = thresholds[1,1], size=1) +
+  theme_bw() +
+  scale_colour_manual(values=cbPalette) +
+  theme(plot.title = element_text(hjust = 0.5),plot.subtitle = element_text(hjust = 0.5)) +
+  geom_text(aes(Date,value,label=round(value, digits=1)),nudge_y = +0.2)
+  
 
 write.csv(dat,"NatickTwiceWeeklyData.csv")  #export Natick data as csv file
 write.csv(otherTownDat,"NatickArea14dayData.csv")  #export area data as csv file
