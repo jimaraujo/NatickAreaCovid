@@ -12,8 +12,8 @@ The plot below tracks the 7-day average of newly confirmed cases per 100k Natick
 
 <hr>
 The plot below tracks the 14-day average of newly confirmed cases per 100k population for Natick and bordering towns (Dover, Framingham, Sherborn, Wayland, and Wellesley). <br>
-The "equal_wtd_avg" averages the 14-day daily rate per 100k population equally. <br>
-The "pop_wtd_avg" averages the 14-day daily rate per 100k population based on town population. <br>
+The "equal_wtd_rate" averages the towns' 14-day daily rates per 100k population equally. <br>
+The "pop_wtd_rate" averages the towns' 14-day daily rates per 100k population based on town population. <br>
 
 ![plot of 14-day weighted averages of new cases per 100k](Plots/NatickAreaCovidRatesWeighted090920.png)
 
