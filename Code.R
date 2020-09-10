@@ -1,20 +1,18 @@
 #install.packages("dplyr")
 #install.packages("ggplot2")
-#install.packages("zoo")
 #install.packages("reshape2")
 
 library(dplyr)
 library(ggplot2)
-library(zoo)
 library(reshape2)
 
 #use the following lines of code to add Natick's twice-weekly data
 newData <- data.frame(Town = "Natick", 
-                      Date = as.Date("09/07/2020", "%m/%d/%Y"), 
-                      Day_Difference = as.integer(4), 
-                      Confirmed_Difference = as.integer(3), 
-                      Current = as.integer(1), 
-                      Total_Confirmed = as.integer(463), 
+                      Date = as.Date("09/10/2020", "%m/%d/%Y"), 
+                      Day_Difference = as.integer(2), 
+                      Confirmed_Difference = as.integer(5), 
+                      Current = as.integer(6), 
+                      Total_Confirmed = as.integer(468), 
                       #Total_Probable = as.integer(237), 
                       Total_Probable = NA, 
                       #Total_Probable_Confirmed = as.integer(690), 
@@ -74,9 +72,10 @@ dat %>% ggplot(aes(x=Date, color=Town)) +
 
 
 #create 7-day daily average of newly confirmed cases, assuming "dat" data frame lists data in chronological order
-avg7dayPer100k <- rollapply(dat$Confirmed_Difference,2,sum)/7/NatickPopulation*perFactor
-avg7dayPer100k[length(avg7dayPer100k)+1]<-NA  ##rollapply function will create a vector of length one less than "dat" data frame
+avg7dayPer100k <- (diff(dat$Total_Confirmed, lag=2)*-1) / as.numeric(diff.Date(dat$Date, lag=2)*-1) / NatickPopulation * perFactor
+avg7dayPer100k <- c(avg7dayPer100k,NA,NA)  ##diff functions above creates a vector with length 2 less than "dat" data frame
 dat$avg7dayPer100k <- avg7dayPer100k   ##rewrite 7-day average data in "dat" data frame
+
 
 #7-day Natick plot
 dat %>% ggplot(aes(x=Date)) +
@@ -86,7 +85,7 @@ dat %>% ggplot(aes(x=Date)) +
   coord_cartesian(ylim = c(0, 12)) +
   ylab("Cases per 100,000 residents") +
   xlab("Date") +
-  ggtitle(label=paste("Cases per day per 100k residents\n7-day average \nlast",previousDays2Plot,"days from",max(dat$Date,otherTownDat$Date))) +
+  ggtitle(label=paste("Cases per day per 100k residents\n7-day average \nlast",previousDays2Plot,"days from",max(dat$Date))) +
   geom_hline(yintercept=as.numeric(thresholds[3,2]), linetype="dashed", color = thresholds[3,1], size=1) +
   geom_hline(yintercept=as.numeric(thresholds[2,2]), linetype="dashed", color = thresholds[2,1], size=1) +
   geom_hline(yintercept=as.numeric(thresholds[1,2]), linetype="dashed", color = thresholds[1,1], size=1) +
