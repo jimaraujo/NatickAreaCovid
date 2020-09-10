@@ -7,13 +7,13 @@ This repository will be used to hold Covid data for the Natick area. Plots will 
 
 <hr>
 The plot below tracks the 7-day average of newly confirmed cases per 100k Natick population. <br>
-![7-day average new cases per 100k](Plots/Natick7dayCovidRates090720.png)
+![plot of 7-day average new cases per 100k](Plots/Natick7dayCovidRates090720.png)
 
 <hr>
 The plot below tracks the 14-day average of newly confirmed cases per 100k population for Natick and bordering towns (Dover, Framingham, Sherborn, Wayland, and Wellesley). <br>
 The "equal_wtd_avg" averages the 14-day daily rate per 100k population equally. <br>
 The "pop_wtd_avg" averages the 14-day daily rate per 100k population based on town population. <br>
-![14-day weighted averages of new cases per 100k](Plots/NatickAreaCovidRates090920.png)
+![plot of 14-day weighted averages of new cases per 100k](Plots/NatickAreaCovidRatesWeighted090920.png)
 
 <hr>
 Natick twice-weekly data downloaded from https://www.natickma.gov/1702/Coronavirus-Updates-Community-Informatio 
