@@ -3,7 +3,7 @@ Resources (plots, data, code) tracking infection rates in the Natick area.
 
 This repository will be used to hold Covid data for the Natick area. Plots will be updated as data are published. <br>
 
-![most recent plot of cases per 100k](Plots/NatickAreaCovidRates091420.png)
+![most recent plot of cases per 100k](Plots/NatickAreaCovidRates091620.png)
 
 <hr>
 The plot below tracks the 7-day average of newly confirmed cases per 100k Natick population. <br>
@@ -15,7 +15,7 @@ The plot below tracks the 14-day average of newly confirmed cases per 100k popul
 The "equal_wtd_rate" averages the towns' 14-day daily rates per 100k population equally. <br>
 The "pop_wtd_rate" averages the towns' 14-day daily rates per 100k population based on town population. <br>
 
-![plot of 14-day weighted averages of new cases per 100k](Plots/NatickAreaCovidRatesWeighted090920.png)
+![plot of 14-day weighted averages of new cases per 100k](Plots/NatickAreaCovidRatesWeighted091620.png)
 
 <hr>
 Natick twice-weekly data downloaded from https://www.natickma.gov/1702/Coronavirus-Updates-Community-Informatio 
