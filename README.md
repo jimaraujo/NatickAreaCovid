@@ -3,21 +3,21 @@ Resources (plots, data, code) tracking infection rates in the Natick area.
 
 This repository will be used to hold Covid data for the Natick area. Plots will be updated as data are published. <br>
 
-![most recent plot of cases per 100k](Plots/NatickAreaCovidRates093020.png)
+![most recent plot of cases per 100k](Plots/NatickAreaCovidRates100720.png)
 
 <hr>
 The plot below tracks the 14-day average of newly confirmed cases per 100k population for Natick and bordering towns (Dover, Framingham, Sherborn, Wayland, and Wellesley). <br>
 The "equal_wtd_rate" averages the towns' 14-day daily rates per 100k population equally. <br>
 The "pop_wtd_rate" averages the towns' 14-day daily rates per 100k population based on town population. <br>
 
-![plot of 14-day weighted averages of new cases per 100k](Plots/NatickAreaCovidRatesWeighted093020.png)
+![plot of 14-day weighted averages of new cases per 100k](Plots/NatickAreaCovidRatesWeighted100720.png)
 
 <hr>
 The plot below tracks the 14-day average of newly confirmed cases per 100k population for Natick and bordering towns (Dover, Framingham, Sherborn, Wayland, Wellesley, and Weston). <br>
 The "equal_wtd_rate" averages the towns' 14-day daily rates per 100k population equally. <br>
 The "pop_wtd_rate" averages the towns' 14-day daily rates per 100k population based on town population. <br>
 
-![plot of 14-day weighted averages of new cases per 100k](Plots/NatickAreaCovidRatesWeightedWithWeston093020.png)
+![plot of 14-day weighted averages of new cases per 100k](Plots/NatickAreaCovidRatesWeightedWithWeston100720.png)
 
 <hr>
 
