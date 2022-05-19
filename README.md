@@ -17,7 +17,7 @@ The plot below tracks the 14-day average of positive tests per 100k population f
 The "equal_wtd_rate" averages the towns' 14-day daily rates per 100k population equally. <br>
 The "pop_wtd_rate" averages the towns' 14-day daily rates per 100k population based on town population. <br>
 
-![plot of 14-day weighted averages of new cases per 100k](Plots/NatickAreaCovidRatesWeightedExFramingham051922.png)
+![plot of 14-day weighted averages of new cases per 100k](Plots/NatickAreaCovidRatesWeightedExFramingham0512922.png)
 
 <hr>
 Surrounding town data downloaded from MA covid dashboards, updated weekly on Wednesdays. See Data/PDFs/ folder above for historic data.
